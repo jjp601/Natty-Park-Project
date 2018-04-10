@@ -1,0 +1,30 @@
+<% include ../partials/header %>
+
+    <div class="row">
+        <div class="col-md-4">
+            <h1><%= user.firstName + " " + user.lastName %></h1>
+            <div id="profile" class="thumbnail">
+                <img src="<%= user.image %>" alt="user image">
+                <div class="caption"><a href="mailto:<%= user.email %>"><%= user.email %></a></div>
+            </div>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam consectetur voluptate officia commodi. Odio veniam, optio natus tenetur aut, magnam quis unde dolorem saepe voluptates facilis totam autem sequi quam.</p>
+        </div>
+        <div class="col-md-8">
+            <h3><%= user.username %>'s Parks:</h3>
+            <% parks.forEach(function(park) { %>
+                <div class="col-md-3 col-sm-3 col-xs-6 flex-format">
+                    <div class="thumbnail">
+                        <img src="<%= park.image %>">
+                        <div class="caption">
+                            <h4><%= park.name %></h4>
+                        </div>
+                        <p>
+                            <a href="/parks/<%= park._id %>" class="btn btn-primary">Info</a>
+                        </p>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+
+<% include ../partials/footer %>

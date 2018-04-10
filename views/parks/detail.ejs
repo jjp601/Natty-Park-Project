@@ -1,0 +1,138 @@
+<% include ../partials/header %>
+
+    <div class="row">
+        <div class="col-md-3">
+            <p class="lead">NattyPark</p>
+            <div class="list-group">
+                <li class="list-group-item active">Details</li>
+                <li class="list-group-item">Events</li>
+                <li class="list-group-item">Guides</li>
+            </div>
+            <div id="map"></div>
+        </div>
+        <div class="col-md-9">
+            <div class="thumbnail">
+                <img class="img-responsive" src="<%= park.image %>">
+                <div class="caption">
+                    <h4 class="pull-right">$<%= park.price %>/day</h4>
+                    <h3><a href="#"><%=park.name%></a></h3>
+                    <p><%= park.details %></p>
+                    <p><em>Submitted By: <a href="/users/<%= park.author.id %>"><%= park.author.username %></a>, <%= moment(park.createdAt).fromNow() %></em></p>
+                    <% if(currentUser && park.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+                        <a class="btn btn-primary" href="/parks/<%= park._id %>/edit">Edit</a>
+                        <form class="delete-action" action="/parks/<%= park._id %>?_method=DELETE" method="POST">
+                            <button class="btn btn-danger">Delete</button>
+                        </form>
+                    <% } %>
+                </div>
+            </div>
+            <div class="well">
+            <div class="text-right">
+                <a class="btn btn-primary pull-right" role="button" data-toggle="collapse" href="#collapseComment" aria-expanded="false" aria-controls="collapseComment">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add new comment</a>
+            </div>
+      
+            <h4><strong>Comments <span class="glyphicon glyphicon glyphicon-comment" aria-hidden="true"></span></strong></h4>
+      
+            <div class="collapse" id="collapseComment">
+                <div class="well" id="new-comment">
+                    <% if(!currentUser) { %>
+                    <h5>You need to login before you can comment. <a href="/login">Click here</a> to go to the login page.</h5>
+                    <% } %>
+                    <% if(currentUser) { %>
+                <h4>Write your comment <span class="glyphicon glyphicon glyphicon-pencil" aria-hidden="true"></span></h4>
+                <form id="add-comment-form" action="/parks/<%= park._id %>/comments" method="POST">
+                    <div class="form-group">
+                        <input class="form-control" type="text" disabled value="<%= currentUser.username %>">
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" name="comment[content]" placeholder="Write your comment..." form="add-comment-form" rows="5" cols="70"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary btn-sm">Comment <span class="glyphicon glyphicon-comment" aria-hidden="true"></span></button>
+                    </div>
+                </form>
+                    <% } %>
+                </div>
+            </div>
+      
+            <hr>
+      
+              <% if (park.comments.length === 0) { %>
+            <em class="no-comment">No comments yet.</em>
+              <% } %>
+      
+            <% park.comments.forEach(function(comment) { %>
+            <div class="row">
+                <div class="col-md-12">
+                <strong>
+                    <% if (currentUser && currentUser._id.equals(comment.author.id)) { %>
+                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                    <% } else { %>
+                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                    <% } %>
+                    <%= comment.author.username %>
+                </strong>
+                <span class="pull-right"><%= moment(comment.createdAt).fromNow() %></span>
+                <p><%= comment.content %></p>
+                <% if (currentUser && currentUser._id.equals(comment.author.id)) { %>
+                <a class="btn btn-xs btn-primary" role="button" data-toggle="collapse" href="#collapseEdit<%= comment._id %>" aria-expanded="false" aria-controls="collapse<%= comment._id %>">
+                    Edit</a>
+                <form class="delete-action" action="/parks/<%= park._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+                    <button class="btn btn-xs btn-danger">Delete</button>
+                </form>
+                <div class="collapse" id="collapseEdit<%= comment._id %>">
+                    <div class="well" id="edit-comment">
+                        <h4>Edit your comment <span class="glyphicon glyphicon-edit" aria-hidden="true"></span></h4>
+                        <form id="edit-comment-form" action="/parks/<%= park._id %>/comments/<%= comment._id %>?_method=PUT" method="POST">
+                            <div class="form-group">
+                                <input class="form-control" type="text" disabled value="<%= currentUser.username %>">
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control" name="comment[content]" placeholder="Your comment content..." form="edit-comment-form" rows="5" cols="70"><%= comment.content %></textarea>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary btn-sm">Edit comment <span class="glyphicon glyphicon-comment" aria-hidden="true"></span></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <% } %>
+                <hr>
+                </div>
+            </div>
+            <% }) %>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function initMap() {
+            var lat = <%= park.lat %>;
+            var lng = <%= park.lng %>;
+            var center = {lat: lat, lng: lng };
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 8,
+                center: center,
+                scrollwheel: false
+            });
+            var contentString = `
+                <strong><%= park.name %><br />
+                <%= park.location %></strong>
+                <p><%= park.details %></p>
+              `
+            var infowindow = new google.maps.InfoWindow({
+                content: contentString
+            });
+            var marker = new google.maps.Marker({
+                position: center,
+                map: map
+            });
+            marker.addListener('click', function() {
+                infowindow.open(map, marker);
+            });
+        }
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB7SQU-0yPHtUdOdRZ6M0wTaF626M_J0do&callback=initMap"></script>
+
+<% include ../partials/footer %>

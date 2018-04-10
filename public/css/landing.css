@@ -1,0 +1,94 @@
+body {
+    background-color: #000;
+}
+
+#landing-header {
+    z-index: 1;
+    position: relative;
+    text-align: center;
+    padding-top: 40vh;
+}
+
+#landing-header h1 {
+    color: #fff;
+}
+
+#start-btn {
+    background: rgb(0, 0, 0, 0.3);
+    border-color: #fff;
+}
+#start-btn:hover {
+    background: #2c9676;
+    border-color: #2c9676;
+}
+
+.slides { 
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.slides li { 
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-size: cover;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    opacity: 0;
+    z-index: 0;
+    animation: imageAnimation 50s linear infinite; 
+}
+
+.slides li:nth-child(1) { 
+    background-image: url(https://images.unsplash.com/photo-1470255343933-d7990eea0ad7?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a258da18ee7196e4dbd6ca15288824e0&auto=format&fit=crop) 
+}
+
+.slides li:nth-child(2) { 
+    background-image: url(https://images.unsplash.com/photo-1465311440653-ba9b1d9b0f5b?ixlib=rb-0.3.5&s=c4762995aae7fc90090689e2d158a7a5&auto=format&fit=crop);
+    animation-delay: 10s; 
+}
+
+.slides li:nth-child(3) { 
+    background-image: url(https://images.unsplash.com/photo-1473277087567-8e0937304e17?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=f5cdd383b325b9e98f2d6f11c97c151b&auto=format&fit=crop);
+    animation-delay: 20s; 
+}
+
+.slides li:nth-child(4) { 
+    background-image: url(https://images.unsplash.com/photo-1458888082704-8b110c0a5f15?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=92e2c2274a5e204762aa66ddf4ab1af3&auto=format&fit=crop);
+    animation-delay: 30s; 
+}
+  
+.slides li:nth-child(5) { 
+    background-image: url(https://images.unsplash.com/photo-1511358146320-eb018ab3e22e?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=d612beb360bdf694c77949d854f3312e&auto=format&fit=crop);
+    animation-delay: 40s; 
+}
+
+@keyframes imageAnimation { 
+    0% { 
+      opacity: 0; 
+      animation-timing-function: ease-in;
+    }
+    10% {
+      opacity: 1;
+      animation-timing-function: ease-out;
+    }
+    20% {
+      opacity: 1
+    }
+    30% {
+      opacity: 0
+    }
+}
+
+.no-cssanimations .slides li {
+	opacity: 1;
+}
