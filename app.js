@@ -19,8 +19,8 @@ var commentRoutes   = require("./routes/comments"),
     indexRoutes     = require("./routes/index");
 
 
-var databaseURL = process.env.DATABASE || "mongodb://localhost/natty_park";
-mongoose.connect(databaseURL);
+
+mongoose.connect(process.env.DATABASEURL);
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
