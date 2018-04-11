@@ -19,7 +19,8 @@ var commentRoutes   = require("./routes/comments"),
     indexRoutes     = require("./routes/index");
 
 
-mongoose.connect("mongodb://localhost/natty_park");
+// mongoose.connect("mongodb://localhost/natty_park");
+mongoose.connect("mongodb://jpowell1:Concordia93@ds241019.mlab.com:41019/nattypark");
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
