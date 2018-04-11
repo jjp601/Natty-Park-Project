@@ -54,6 +54,6 @@ app.use(indexRoutes);
 app.use("/parks", parkRoutes);
 app.use("/parks/:id/comments", commentRoutes);
 
-app.listen(3000, function() {
+app.listen(process.env.PORT || 3000, function() {
     console.log("NattyPark has started!!!");
 });
