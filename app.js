@@ -18,7 +18,7 @@ var commentRoutes   = require("./routes/comments"),
     parkRoutes      = require("./routes/parks"),
     indexRoutes     = require("./routes/index");
 
-
+// Connect to Mongo Database
 var databaseURL = process.env.DATABASEURL || "mongodb://localhost/natty_park";
 mongoose.connect(databaseURL);
 
