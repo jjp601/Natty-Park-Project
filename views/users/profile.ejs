@@ -9,10 +9,12 @@
             </div>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam consectetur voluptate officia commodi. Odio veniam, optio natus tenetur aut, magnam quis unde dolorem saepe voluptates facilis totam autem sequi quam.</p>
         </div>
-        <div class="col-md-8">
-            <h3><%= user.username %>'s Parks:</h3>
+        <div class="col-md-8 flex-format">
+            <div class="col-xs-12">
+                <h3 class="pull-left"><%= user.username %>'s Parks:</h3>
+            </div>
             <% parks.forEach(function(park) { %>
-                <div class="col-md-3 col-sm-3 col-xs-6 flex-format">
+                <div class="col-md-4 col-sm-4 col-xs-6">
                     <div class="thumbnail">
                         <img src="<%= park.image %>">
                         <div class="caption">
